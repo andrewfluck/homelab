@@ -1,0 +1,29 @@
+version: "3.3"
+
+services:
+  transmission:
+    image: lscr.io/linuxserver/transmission:latest
+    container_name: transmission
+    environment:
+      - TZ=$TZ
+    volumes:
+      - /docker/transmission/data:/config
+      - type: volume
+        source: transmission
+        target: /downloads
+        volume:
+          subpath: downloads
+      - type: volume
+        source: transmission
+        target: /watch
+        volume:
+          subpath: watch
+    networks:
+      appliances:
+        ipv4_address: 10.10.0.42
+    restart: unless-stopped
+
+networks:
+  appliances:
+    name: appliances
+    external: true
