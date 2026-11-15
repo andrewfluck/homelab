@@ -10,8 +10,13 @@ services:
     volumes:
       - /docker/plex/database:/config
       - /docker/plex/transcode/temp:/transcode
-      - plex:/data
+      - media:/data
     network_mode: host
     devices:
       - /dev/dri:/dev/dri
     restart: unless-stopped
+
+volumes:
+  media:
+    name: media
+    external: true

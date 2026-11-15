@@ -8,13 +8,10 @@ services:
       - TZ=$TZ
     volumes:
       - /docker/transmission/data:/config
+      - media:/media
+      - media-downloads:/downloads
       - type: volume
-        source: transmission
-        target: /downloads
-        volume:
-          subpath: downloads
-      - type: volume
-        source: transmission
+        source: media
         target: /watch
         volume:
           subpath: watch
@@ -27,3 +24,15 @@ networks:
   appliances:
     name: appliances
     external: true
+
+volumes:
+  media:
+    name: media
+    external: true
+  media-downloads:
+    name: media-downloads
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=10.10.0.11,rw,nfsvers=3,nolock
+      device: ":/volume/fbc954de-d34f-4385-aa6e-3ddd8e0ccd7e/.srv/.unifi-drive/media/.data/downloads"
